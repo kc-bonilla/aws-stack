@@ -5,7 +5,7 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::lambda:invoke",
       "Parameters": {
-        "FunctionName": "arn:aws:lambda:us-east-2:292057991635:function:PassInput",
+        "FunctionName": "arn:aws:lambda:us-east-2:292057XXXXXX:function:PassInput",
         "Payload": {
           "Input.$": "$"
         }
@@ -27,12 +27,12 @@
       "Branches": [
         {
           "Comment": "LeftBranch",
-          "StartAt": "ShootProofBranch",
+          "StartAt": "S_Branch",
           "States": {
-            "ShootProofBranch": {
+            "S_Branch": {
               "Type": "Parallel",
               "InputPath": "$",
-              "ResultPath": "$.response.ShootProofBranch",
+              "ResultPath": "$.response.S_Branch",
               "End": true,
               "Branches": [
                 {
@@ -40,7 +40,7 @@
                   "States": {
                     "AuroraCrawlerActivity": {
                       "Type": "Task",
-                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:SP_AuroraCrawler",
+                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:SB_AuroraCrawler",
                       "InputPath": "$",
                       "ResultPath": "$.response.sp_aurora_crawler_activity",
                       "TimeoutSeconds": 3600,
@@ -69,18 +69,18 @@
                     },
                     "AuroraCrawlerPassed": {
                       "Type": "Pass",
-                      "Next": "SP_ExtractJobs"
+                      "Next": "SB_ExtractJobs"
                     },
-                    "SP_ExtractJobs": {
+                    "SB_ExtractJobs": {
                       "Type": "Map",
                       "InputPath": "$",
-                      "ItemsPath": "$.InputSchema.SP_ExtractJobs",
+                      "ItemsPath": "$.InputSchema.SB_ExtractJobs",
                       "ResultPath": "$.response.sp_extract_jobs",
                       "MaxConcurrency": 10,
                       "Iterator": {
-                        "StartAt": "SP_RunJob",
+                        "StartAt": "SB_RunJob",
                         "States": {
-                          "SP_RunJob": {
+                          "SB_RunJob": {
                             "Type": "Task",
                             "Resource": "arn:aws:states:::glue:startJobRun.sync",
                             "OutputPath": "$.JobRunState",
@@ -104,33 +104,33 @@
                           }
                         }
                       },
-                      "Next": "SP_ExtractJobsPassed"
+                      "Next": "SB_ExtractJobsPassed"
                     },
-                    "SP_ExtractJobsPassed": {
+                    "SB_ExtractJobsPassed": {
                       "Type": "Pass",
-                      "Next": "SP_Crawlers"
+                      "Next": "SB_Crawlers"
                     },
-                    "SP_Crawlers": {
+                    "SB_Crawlers": {
                       "Type": "Parallel",
                       "InputPath": "$",
                       "ResultPath": "$.response.sp_crawlers",
                       "End": true,
                       "Branches": [
                         {
-                          "StartAt": "SP_ExtractCrawler",
+                          "StartAt": "SB_ExtractCrawler",
                           "States": {
-                            "SP_ExtractCrawler": {
+                            "SB_ExtractCrawler": {
                               "Type": "Parallel",
                               "InputPath": "$",
                               "ResultPath": "$.response.sp_extract_crawler",
                               "End": true,
                               "Branches": [
                                 {
-                                  "StartAt": "SP_ExtractCrawlerActivity",
+                                  "StartAt": "SB_ExtractCrawlerActivity",
                                   "States": {
-                                    "SP_ExtractCrawlerActivity": {
+                                    "SB_ExtractCrawlerActivity": {
                                       "Type": "Task",
-                                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:SP_ExtractCrawler",
+                                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:SB_ExtractCrawler",
                                       "InputPath": "$",
                                       "ResultPath": "$.response.sp_extract_activity",
                                       "TimeoutSeconds": 3600,
@@ -149,15 +149,15 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "SP_ExtractCrawlerFailed"
+                                          "Next": "SB_ExtractCrawlerFailed"
                                         }
                                       ],
-                                      "Next": "SP_ExtractCrawlerPassed"
+                                      "Next": "SB_ExtractCrawlerPassed"
                                     },
-                                    "SP_ExtractCrawlerFailed": {
+                                    "SB_ExtractCrawlerFailed": {
                                       "Type": "Fail"
                                     },
-                                    "SP_ExtractCrawlerPassed": {
+                                    "SB_ExtractCrawlerPassed": {
                                       "Type": "Pass",
                                       "End": true
                                     }
@@ -179,8 +179,8 @@
                                       "Parameters": {
                                         "FunctionName": "TriggerCrawler",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Extract_Crawler"
                                         }
                                       },
                                       "TimeoutSeconds": 300,
@@ -207,9 +207,9 @@
                                     "WaitForExtractCrawlerToComplete": {
                                       "Type": "Wait",
                                       "Seconds": 60,
-                                      "Next": "SP_ExtractCrawlerCheckStatus"
+                                      "Next": "SB_ExtractCrawlerCheckStatus"
                                     },
-                                    "SP_ExtractCrawlerCheckStatus": {
+                                    "SB_ExtractCrawlerCheckStatus": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
@@ -217,8 +217,8 @@
                                       "Parameters": {
                                         "FunctionName": "CheckCrawlerStatus",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Extract_Crawler"
                                         }
                                       },
                                       "Retry": [
@@ -236,12 +236,12 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "SP_ExtractCrawlerCheckFailed"
+                                          "Next": "SB_ExtractCrawlerCheckFailed"
                                         }
                                       ],
-                                      "Next": "SP_ExtractCrawlerCheckPassed"
+                                      "Next": "SB_ExtractCrawlerCheckPassed"
                                     },
-                                    "SP_ExtractCrawlerCheckFailed": {
+                                    "SB_ExtractCrawlerCheckFailed": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
@@ -249,15 +249,15 @@
                                       "Parameters": {
                                         "FunctionName": "CrawlerCheckFail",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Extract_Crawler"
                                         }
                                       },
                                       "End": true
                                     },
-                                    "SP_ExtractCrawlerCheckPassed": {
+                                    "SB_ExtractCrawlerCheckPassed": {
                                       "Type": "Pass",
-                                      "Result": "SP_ExtractCrawlerCheckPassed",
+                                      "Result": "SB_ExtractCrawlerCheckPassed",
                                       "End": true
                                     }
                                   }
@@ -267,20 +267,20 @@
                           }
                         },
                         {
-                          "StartAt": "SP_HistoryCrawler",
+                          "StartAt": "SB_HistoryCrawler",
                           "States": {
-                            "SP_HistoryCrawler": {
+                            "SB_HistoryCrawler": {
                               "Type": "Parallel",
                               "InputPath": "$",
                               "ResultPath": "$.response.sp_history_crawler",
                               "End": true,
                               "Branches": [
                                 {
-                                  "StartAt": "SP_HistoryCrawlerActivity",
+                                  "StartAt": "SB_HistoryCrawlerActivity",
                                   "States": {
-                                    "SP_HistoryCrawlerActivity": {
+                                    "SB_HistoryCrawlerActivity": {
                                       "Type": "Task",
-                                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:SP_HistoryCrawler",
+                                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:SB_HistoryCrawler",
                                       "InputPath": "$",
                                       "ResultPath": "$.response.sp_history_crawler_activity",
                                       "TimeoutSeconds": 3600,
@@ -299,15 +299,15 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "SP_HistoryCrawlerFailed"
+                                          "Next": "SB_HistoryCrawlerFailed"
                                         }
                                       ],
-                                      "Next": "SP_HistoryCrawlerPassed"
+                                      "Next": "SB_HistoryCrawlerPassed"
                                     },
-                                    "SP_HistoryCrawlerFailed": {
+                                    "SB_HistoryCrawlerFailed": {
                                       "Type": "Fail"
                                     },
-                                    "SP_HistoryCrawlerPassed": {
+                                    "SB_HistoryCrawlerPassed": {
                                       "Type": "Pass",
                                       "End": true
                                     }
@@ -329,8 +329,8 @@
                                       "Parameters": {
                                         "FunctionName": "TriggerCrawler",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_History_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_History_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_History_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_History_Crawler"
                                         }
                                       },
                                       "TimeoutSeconds": 300,
@@ -357,9 +357,9 @@
                                     "WaitForHistoryCrawlerToComplete": {
                                       "Type": "Wait",
                                       "Seconds": 60,
-                                      "Next": "SP_HistoryCrawlerCheckStatus"
+                                      "Next": "SB_HistoryCrawlerCheckStatus"
                                     },
-                                    "SP_HistoryCrawlerCheckStatus": {
+                                    "SB_HistoryCrawlerCheckStatus": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
@@ -367,8 +367,8 @@
                                       "Parameters": {
                                         "FunctionName": "CheckCrawlerStatus",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_History_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_History_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_History_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_History_Crawler"
                                         }
                                       },
                                       "Retry": [
@@ -386,12 +386,12 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "SP_HistoryCrawlerCheckFailed"
+                                          "Next": "SB_HistoryCrawlerCheckFailed"
                                         }
                                       ],
-                                      "Next": "SP_HistoryCrawlerCheckPassed"
+                                      "Next": "SB_HistoryCrawlerCheckPassed"
                                     },
-                                    "SP_HistoryCrawlerCheckFailed": {
+                                    "SB_HistoryCrawlerCheckFailed": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
@@ -399,15 +399,15 @@
                                       "Parameters": {
                                         "FunctionName": "CrawlerCheckFail",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_History_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_History_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_History_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_History_Crawler"
                                         }
                                       },
                                       "End": true
                                     },
-                                    "SP_HistoryCrawlerCheckPassed": {
+                                    "SB_HistoryCrawlerCheckPassed": {
                                       "Type": "Pass",
-                                      "Result": "SP_HistoryCrawlerCheckPassed",
+                                      "Result": "SB_HistoryCrawlerCheckPassed",
                                       "End": true
                                     }
                                   }
@@ -436,8 +436,8 @@
                       "Parameters": {
                         "FunctionName": "TriggerCrawler",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Aurora_Crawler"
                         }
                       },
                       "TimeoutSeconds": 300,
@@ -474,8 +474,8 @@
                       "Parameters": {
                         "FunctionName": "CheckCrawlerStatus",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Aurora_Crawler"
                         }
                       },
                       "Retry": [
@@ -506,8 +506,8 @@
                       "Parameters": {
                         "FunctionName": "CrawlerCheckFail",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Aurora_Crawler"
                         }
                       },
                       "End": true
@@ -525,20 +525,20 @@
         },
         {
           "Comment": "MiddleBranch",
-          "StartAt": "SP_Pay_Branch",
+          "StartAt": "SB_Pay_Branch",
           "States": {
-            "SP_Pay_Branch": {
+            "SB_Pay_Branch": {
               "Type": "Parallel",
               "InputPath": "$",
-              "ResultPath": "$.response.SP_Pay_Branch",
+              "ResultPath": "$.response.SB_Pay_Branch",
               "End": true,
               "Branches": [
                 {
-                  "StartAt": "SP_Pay_AuroraCrawlerActivity",
+                  "StartAt": "SB_Pay_AuroraCrawlerActivity",
                   "States": {
-                    "SP_Pay_AuroraCrawlerActivity": {
+                    "SB_Pay_AuroraCrawlerActivity": {
                       "Type": "Task",
-                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:SP_Pay_AuroraCrawler",
+                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:SB_Pay_AuroraCrawler",
                       "InputPath": "$",
                       "ResultPath": "$.response.sp_pay_aurora_crawler_activity",
                       "TimeoutSeconds": 3600,
@@ -557,28 +557,28 @@
                           "ErrorEquals": [
                             "States.ALL"
                           ],
-                          "Next": "SP_Pay_AuroraCrawlerFailed"
+                          "Next": "SB_Pay_AuroraCrawlerFailed"
                         }
                       ],
-                      "Next": "SP_Pay_AuroraCrawlerPassed"
+                      "Next": "SB_Pay_AuroraCrawlerPassed"
                     },
-                    "SP_Pay_AuroraCrawlerFailed": {
+                    "SB_Pay_AuroraCrawlerFailed": {
                       "Type": "Fail"
                     },
-                    "SP_Pay_AuroraCrawlerPassed": {
+                    "SB_Pay_AuroraCrawlerPassed": {
                       "Type": "Pass",
-                      "Next": "SP_Pay_ExtractJobs"
+                      "Next": "SB_Pay_ExtractJobs"
                     },
-                    "SP_Pay_ExtractJobs": {
+                    "SB_Pay_ExtractJobs": {
                       "Type": "Map",
                       "InputPath": "$",
-                      "ItemsPath": "$.InputSchema.SP_Pay_ExtractJobs",
+                      "ItemsPath": "$.InputSchema.SB_Pay_ExtractJobs",
                       "ResultPath": "$.response.sp_pay_extract_jobs",
                       "MaxConcurrency": 10,
                       "Iterator": {
-                        "StartAt": "SP_Pay_RunJob",
+                        "StartAt": "SB_Pay_RunJob",
                         "States": {
-                          "SP_Pay_RunJob": {
+                          "SB_Pay_RunJob": {
                             "Type": "Task",
                             "Resource": "arn:aws:states:::glue:startJobRun.sync",
                             "OutputPath": "$.JobRunState",
@@ -602,13 +602,13 @@
                           }
                         }
                       },
-                      "Next": "SP_Pay_ExtractJobsPassed"
+                      "Next": "SB_Pay_ExtractJobsPassed"
                     },
-                    "SP_Pay_ExtractJobsPassed": {
+                    "SB_Pay_ExtractJobsPassed": {
                       "Type": "Pass",
-                      "Next": "SP_Pay_Crawlers"
+                      "Next": "SB_Pay_Crawlers"
                     },
-                    "SP_Pay_Crawlers": {
+                    "SB_Pay_Crawlers": {
                       "Type": "Parallel",
                       "InputPath": "$",
                       "ResultPath": "$.response.sp_pay_crawlers",
@@ -624,11 +624,11 @@
                               "End": true,
                               "Branches": [
                                 {
-                                  "StartAt": "SP_Pay_ExtractCrawlerActivity",
+                                  "StartAt": "SB_Pay_ExtractCrawlerActivity",
                                   "States": {
-                                    "SP_Pay_ExtractCrawlerActivity": {
+                                    "SB_Pay_ExtractCrawlerActivity": {
                                       "Type": "Task",
-                                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:SP_Pay_ExtractCrawler",
+                                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:SB_Pay_ExtractCrawler",
                                       "InputPath": "$",
                                       "ResultPath": "$.response.sp_pay_extract_activity",
                                       "TimeoutSeconds": 3600,
@@ -647,15 +647,15 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "SP_Pay_ExtractCrawlerFailed"
+                                          "Next": "SB_Pay_ExtractCrawlerFailed"
                                         }
                                       ],
-                                      "Next": "SP_Pay_ExtractCrawlerPassed"
+                                      "Next": "SB_Pay_ExtractCrawlerPassed"
                                     },
-                                    "SP_Pay_ExtractCrawlerFailed": {
+                                    "SB_Pay_ExtractCrawlerFailed": {
                                       "Type": "Fail"
                                     },
-                                    "SP_Pay_ExtractCrawlerPassed": {
+                                    "SB_Pay_ExtractCrawlerPassed": {
                                       "Type": "Pass",
                                       "End": true
                                     }
@@ -677,8 +677,8 @@
                                       "Parameters": {
                                         "FunctionName": "TriggerCrawler",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Pay_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Pay_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Pay_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Pay_Extract_Crawler"
                                         }
                                       },
                                       "TimeoutSeconds": 300,
@@ -705,9 +705,9 @@
                                     "WaitForPayExtractCrawlerToComplete": {
                                       "Type": "Wait",
                                       "Seconds": 60,
-                                      "Next": "SP_Pay_ExtractCrawlerCheckStatus"
+                                      "Next": "SB_Pay_ExtractCrawlerCheckStatus"
                                     },
-                                    "SP_Pay_ExtractCrawlerCheckStatus": {
+                                    "SB_Pay_ExtractCrawlerCheckStatus": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
@@ -715,8 +715,8 @@
                                       "Parameters": {
                                         "FunctionName": "CheckCrawlerStatus",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Pay_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Pay_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Pay_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Pay_Extract_Crawler"
                                         }
                                       },
                                       "Retry": [
@@ -734,12 +734,12 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "SP_Pay_ExtractCrawlerCheckFailed"
+                                          "Next": "SB_Pay_ExtractCrawlerCheckFailed"
                                         }
                                       ],
-                                      "Next": "SP_Pay_ExtractCrawlerCheckPassed"
+                                      "Next": "SB_Pay_ExtractCrawlerCheckPassed"
                                     },
-                                    "SP_Pay_ExtractCrawlerCheckFailed": {
+                                    "SB_Pay_ExtractCrawlerCheckFailed": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
@@ -747,13 +747,13 @@
                                       "Parameters": {
                                         "FunctionName": "CrawlerCheckFail",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Pay_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Pay_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Pay_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Pay_Extract_Crawler"
                                         }
                                       },
                                       "End": true
                                     },
-                                    "SP_Pay_ExtractCrawlerCheckPassed": {
+                                    "SB_Pay_ExtractCrawlerCheckPassed": {
                                       "Type": "Pass",
                                       "Result": "PayExtractCrawlerCheckPassed",
                                       "End": true
@@ -784,8 +784,8 @@
                       "Parameters": {
                         "FunctionName": "TriggerCrawler",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Pay_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Pay_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Pay_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Pay_Aurora_Crawler"
                         }
                       },
                       "TimeoutSeconds": 300,
@@ -812,9 +812,9 @@
                     "WaitForPayAuroraCrawlerToComplete": {
                       "Type": "Wait",
                       "Seconds": 60,
-                      "Next": "SP_Pay_AuroraCrawlerCheckStatus"
+                      "Next": "SB_Pay_AuroraCrawlerCheckStatus"
                     },
-                    "SP_Pay_AuroraCrawlerCheckStatus": {
+                    "SB_Pay_AuroraCrawlerCheckStatus": {
                       "Type": "Task",
                       "Resource": "arn:aws:states:::lambda:invoke",
                       "InputPath": "$",
@@ -822,8 +822,8 @@
                       "Parameters": {
                         "FunctionName": "CheckCrawlerStatus",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Pay_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Pay_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Pay_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Pay_Aurora_Crawler"
                         }
                       },
                       "Retry": [
@@ -841,12 +841,12 @@
                           "ErrorEquals": [
                             "States.ALL"
                           ],
-                          "Next": "SP_Pay_AuroraCrawlerCheckFailed"
+                          "Next": "SB_Pay_AuroraCrawlerCheckFailed"
                         }
                       ],
-                      "Next": "SP_Pay_AuroraCrawlerCheckPassed"
+                      "Next": "SB_Pay_AuroraCrawlerCheckPassed"
                     },
-                    "SP_Pay_AuroraCrawlerCheckFailed": {
+                    "SB_Pay_AuroraCrawlerCheckFailed": {
                       "Type": "Task",
                       "Resource": "arn:aws:states:::lambda:invoke",
                       "InputPath": "$",
@@ -854,15 +854,15 @@
                       "Parameters": {
                         "FunctionName": "CrawlerCheckFail",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.SP_Pay_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.SP_Pay_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.SB_Pay_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.SB_Pay_Aurora_Crawler"
                         }
                       },
                       "End": true
                     },
-                    "SP_Pay_AuroraCrawlerCheckPassed": {
+                    "SB_Pay_AuroraCrawlerCheckPassed": {
                       "Type": "Pass",
-                      "Result": "SP_Pay_AuroraCrawlerCheckPassed",
+                      "Result": "SB_Pay_AuroraCrawlerCheckPassed",
                       "End": true
                     }
                   }
@@ -873,22 +873,22 @@
         },
         {
           "Comment": "RightBranch",
-          "StartAt": "TaveBranch",
+          "StartAt": "T_Branch",
           "States": {
-            "TaveBranch": {
+            "T_Branch": {
               "Type": "Parallel",
               "InputPath": "$",
-              "ResultPath": "$.response.TaveBranch",
+              "ResultPath": "$.response.T_Branch",
               "End": true,
               "Branches": [
                 {
-                  "StartAt": "TaveAuroraCrawlerActivity",
+                  "StartAt": "T_AuroraCrawlerActivity",
                   "States": {
-                    "TaveAuroraCrawlerActivity": {
+                    "T_AuroraCrawlerActivity": {
                       "Type": "Task",
-                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:Tave_AuroraCrawler",
+                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:T_AuroraCrawler",
                       "InputPath": "$",
-                      "ResultPath": "$.response.tave_aurora_crawler_activity",
+                      "ResultPath": "$.response.t_aurora_crawler_activity",
                       "TimeoutSeconds": 3600,
                       "Retry": [
                         {
@@ -905,28 +905,28 @@
                           "ErrorEquals": [
                             "States.ALL"
                           ],
-                          "Next": "TaveAuroraCrawlerFailed"
+                          "Next": "T_AuroraCrawlerFailed"
                         }
                       ],
-                      "Next": "TaveAuroraCrawlerPassed"
+                      "Next": "T_AuroraCrawlerPassed"
                     },
-                    "TaveAuroraCrawlerFailed": {
+                    "T_AuroraCrawlerFailed": {
                       "Type": "Fail"
                     },
-                    "TaveAuroraCrawlerPassed": {
+                    "T_AuroraCrawlerPassed": {
                       "Type": "Pass",
-                      "Next": "Tave_ExtractJobs"
+                      "Next": "T_ExtractJobs"
                     },
-                    "Tave_ExtractJobs": {
+                    "T_ExtractJobs": {
                       "Type": "Map",
                       "InputPath": "$",
-                      "ItemsPath": "$.InputSchema.Tave_ExtractJobs",
-                      "ResultPath": "$.response.tave_extract_jobs",
+                      "ItemsPath": "$.InputSchema.T_ExtractJobs",
+                      "ResultPath": "$.response.t_extract_jobs",
                       "MaxConcurrency": 5,
                       "Iterator": {
-                        "StartAt": "TaveRunJob",
+                        "StartAt": "T_RunJob",
                         "States": {
-                          "TaveRunJob": {
+                          "T_RunJob": {
                             "Type": "Task",
                             "Resource": "arn:aws:states:::glue:startJobRun.sync",
                             "OutputPath": "$.JobRunState",
@@ -950,35 +950,35 @@
                           }
                         }
                       },
-                      "Next": "TaveExtractJobsPassed"
+                      "Next": "T_ExtractJobsPassed"
                     },
-                    "TaveExtractJobsPassed": {
+                    "T_ExtractJobsPassed": {
                       "Type": "Pass",
-                      "Next": "Tave_Crawlers"
+                      "Next": "T_Crawlers"
                     },
-                    "Tave_Crawlers": {
+                    "T_Crawlers": {
                       "Type": "Parallel",
                       "InputPath": "$",
-                      "ResultPath": "$.response.tave_crawlers",
+                      "ResultPath": "$.response.t_crawlers",
                       "End": true,
                       "Branches": [
                         {
-                          "StartAt": "Tave_ExtractCrawler",
+                          "StartAt": "T_ExtractCrawler",
                           "States": {
-                            "Tave_ExtractCrawler": {
+                            "T_ExtractCrawler": {
                               "Type": "Parallel",
                               "InputPath": "$",
-                              "ResultPath": "$.response.tave_extract_crawler",
+                              "ResultPath": "$.response.t_extract_crawler",
                               "End": true,
                               "Branches": [
                                 {
-                                  "StartAt": "Tave_ExtractCrawlerActivity",
+                                  "StartAt": "T_ExtractCrawlerActivity",
                                   "States": {
-                                    "Tave_ExtractCrawlerActivity": {
+                                    "T_ExtractCrawlerActivity": {
                                       "Type": "Task",
-                                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:Tave_ExtractCrawler",
+                                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:T_ExtractCrawler",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_extract_activity",
+                                      "ResultPath": "$.response.t_extract_activity",
                                       "TimeoutSeconds": 3600,
                                       "Retry": [
                                         {
@@ -995,38 +995,38 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "Tave_ExtractCrawlerFailed"
+                                          "Next": "T_ExtractCrawlerFailed"
                                         }
                                       ],
-                                      "Next": "Tave_ExtractCrawlerPassed"
+                                      "Next": "T_ExtractCrawlerPassed"
                                     },
-                                    "Tave_ExtractCrawlerFailed": {
+                                    "T_ExtractCrawlerFailed": {
                                       "Type": "Fail"
                                     },
-                                    "Tave_ExtractCrawlerPassed": {
+                                    "T_ExtractCrawlerPassed": {
                                       "Type": "Pass",
                                       "End": true
                                     }
                                   }
                                 },
                                 {
-                                  "StartAt": "WaitForTaveExtractCrawlerWorkerAvailability",
+                                  "StartAt": "WaitForT_ExtractCrawlerWorkerAvailability",
                                   "States": {
-                                    "WaitForTaveExtractCrawlerWorkerAvailability": {
+                                    "WaitForT_ExtractCrawlerWorkerAvailability": {
                                       "Type": "Wait",
                                       "Seconds": 5,
-                                      "Next": "InvokeTaveExtractCrawlerWorker"
+                                      "Next": "InvokeT_ExtractCrawlerWorker"
                                     },
-                                    "InvokeTaveExtractCrawlerWorker": {
+                                    "InvokeT_ExtractCrawlerWorker": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_extract_crawler_worker",
+                                      "ResultPath": "$.response.t_extract_crawler_worker",
                                       "Parameters": {
                                         "FunctionName": "TriggerCrawler",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.T_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.T_Extract_Crawler"
                                         }
                                       },
                                       "TimeoutSeconds": 300,
@@ -1045,26 +1045,26 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "WaitForTaveExtractCrawlerToComplete"
+                                          "Next": "WaitForT_ExtractCrawlerToComplete"
                                         }
                                       ],
-                                      "Next": "WaitForTaveExtractCrawlerToComplete"
+                                      "Next": "WaitForT_ExtractCrawlerToComplete"
                                     },
-                                    "WaitForTaveExtractCrawlerToComplete": {
+                                    "WaitForT_ExtractCrawlerToComplete": {
                                       "Type": "Wait",
                                       "Seconds": 60,
-                                      "Next": "Tave_ExtractCrawlerCheckStatus"
+                                      "Next": "T_ExtractCrawlerCheckStatus"
                                     },
-                                    "Tave_ExtractCrawlerCheckStatus": {
+                                    "T_ExtractCrawlerCheckStatus": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_extract_crawler_check",
+                                      "ResultPath": "$.response.t_extract_crawler_check",
                                       "Parameters": {
                                         "FunctionName": "CheckCrawlerStatus",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.T_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.T_Extract_Crawler"
                                         }
                                       },
                                       "Retry": [
@@ -1082,28 +1082,28 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "Tave_ExtractCrawlerCheckFailed"
+                                          "Next": "T_ExtractCrawlerCheckFailed"
                                         }
                                       ],
-                                      "Next": "Tave_ExtractCrawlerCheckPassed"
+                                      "Next": "T_ExtractCrawlerCheckPassed"
                                     },
-                                    "Tave_ExtractCrawlerCheckFailed": {
+                                    "T_ExtractCrawlerCheckFailed": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_extract_crawler_check",
+                                      "ResultPath": "$.response.t_extract_crawler_check",
                                       "Parameters": {
                                         "FunctionName": "CrawlerCheckFail",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_Extract_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_Extract_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.T_Extract_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.T_Extract_Crawler"
                                         }
                                       },
                                       "End": true
                                     },
-                                    "Tave_ExtractCrawlerCheckPassed": {
+                                    "T_ExtractCrawlerCheckPassed": {
                                       "Type": "Pass",
-                                      "Result": "Tave_ExtractCrawlerCheckPassed",
+                                      "Result": "T_ExtractCrawlerCheckPassed",
                                       "End": true
                                     }
                                   }
@@ -1113,22 +1113,22 @@
                           }
                         },
                         {
-                          "StartAt": "Tave_HistoryCrawler",
+                          "StartAt": "T_HistoryCrawler",
                           "States": {
-                            "Tave_HistoryCrawler": {
+                            "T_HistoryCrawler": {
                               "Type": "Parallel",
                               "InputPath": "$",
-                              "ResultPath": "$.response.tave_history_crawler",
+                              "ResultPath": "$.response.t_history_crawler",
                               "End": true,
                               "Branches": [
                                 {
-                                  "StartAt": "Tave_HistoryCrawlerActivity",
+                                  "StartAt": "T_HistoryCrawlerActivity",
                                   "States": {
-                                    "Tave_HistoryCrawlerActivity": {
+                                    "T_HistoryCrawlerActivity": {
                                       "Type": "Task",
-                                      "Resource": "arn:aws:states:us-east-2:292057991635:activity:Tave_HistoryCrawler",
+                                      "Resource": "arn:aws:states:us-east-2:292057XXXXXX:activity:T_HistoryCrawler",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_history_crawler_activity",
+                                      "ResultPath": "$.response.t_history_crawler_activity",
                                       "TimeoutSeconds": 3600,
                                       "Retry": [
                                         {
@@ -1145,38 +1145,38 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "Tave_HistoryCrawlerFailed"
+                                          "Next": "T_HistoryCrawlerFailed"
                                         }
                                       ],
-                                      "Next": "Tave_HistoryCrawlerPassed"
+                                      "Next": "T_HistoryCrawlerPassed"
                                     },
-                                    "Tave_HistoryCrawlerFailed": {
+                                    "T_HistoryCrawlerFailed": {
                                       "Type": "Fail"
                                     },
-                                    "Tave_HistoryCrawlerPassed": {
+                                    "T_HistoryCrawlerPassed": {
                                       "Type": "Pass",
                                       "End": true
                                     }
                                   }
                                 },
                                 {
-                                  "StartAt": "WaitForTaveHistoryCrawlerWorkerAvailability",
+                                  "StartAt": "WaitForT_HistoryCrawlerWorkerAvailability",
                                   "States": {
-                                    "WaitForTaveHistoryCrawlerWorkerAvailability": {
+                                    "WaitForT_HistoryCrawlerWorkerAvailability": {
                                       "Type": "Wait",
                                       "Seconds": 5,
-                                      "Next": "InvokeTaveHistoryCrawlerWorker"
+                                      "Next": "InvokeT_HistoryCrawlerWorker"
                                     },
-                                    "InvokeTaveHistoryCrawlerWorker": {
+                                    "InvokeT_HistoryCrawlerWorker": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_history_crawler_worker",
+                                      "ResultPath": "$.response.t_history_crawler_worker",
                                       "Parameters": {
                                         "FunctionName": "TriggerCrawler",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_History_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_History_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.T_History_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.T_History_Crawler"
                                         }
                                       },
                                       "TimeoutSeconds": 300,
@@ -1195,26 +1195,26 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "WaitForTaveHistoryCrawlerToComplete"
+                                          "Next": "WaitForT_HistoryCrawlerToComplete"
                                         }
                                       ],
-                                      "Next": "WaitForTaveHistoryCrawlerToComplete"
+                                      "Next": "WaitForT_HistoryCrawlerToComplete"
                                     },
-                                    "WaitForTaveHistoryCrawlerToComplete": {
+                                    "WaitForT_HistoryCrawlerToComplete": {
                                       "Type": "Wait",
                                       "Seconds": 60,
-                                      "Next": "Tave_HistoryCrawlerCheckStatus"
+                                      "Next": "T_HistoryCrawlerCheckStatus"
                                     },
-                                    "Tave_HistoryCrawlerCheckStatus": {
+                                    "T_HistoryCrawlerCheckStatus": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_history_crawler_check",
+                                      "ResultPath": "$.response.t_history_crawler_check",
                                       "Parameters": {
                                         "FunctionName": "CheckCrawlerStatus",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_History_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_History_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.T_History_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.T_History_Crawler"
                                         }
                                       },
                                       "Retry": [
@@ -1232,28 +1232,28 @@
                                           "ErrorEquals": [
                                             "States.ALL"
                                           ],
-                                          "Next": "Tave_HistoryCrawlerCheckFailed"
+                                          "Next": "T_HistoryCrawlerCheckFailed"
                                         }
                                       ],
-                                      "Next": "Tave_HistoryCrawlerCheckPassed"
+                                      "Next": "T_HistoryCrawlerCheckPassed"
                                     },
-                                    "Tave_HistoryCrawlerCheckFailed": {
+                                    "T_HistoryCrawlerCheckFailed": {
                                       "Type": "Task",
                                       "Resource": "arn:aws:states:::lambda:invoke",
                                       "InputPath": "$",
-                                      "ResultPath": "$.response.tave_history_crawler_check",
+                                      "ResultPath": "$.response.t_history_crawler_check",
                                       "Parameters": {
                                         "FunctionName": "CrawlerCheckFail",
                                         "Payload": {
-                                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_History_Crawler",
-                                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_History_Crawler"
+                                          "crawler.$": "$.InputSchema.CrawlerJobs.T_History_Crawler",
+                                          "activity.$": "$.InputSchema.CrawlerActivities.T_History_Crawler"
                                         }
                                       },
                                       "End": true
                                     },
-                                    "Tave_HistoryCrawlerCheckPassed": {
+                                    "T_HistoryCrawlerCheckPassed": {
                                       "Type": "Pass",
-                                      "Result": "Tave_HistoryCrawlerCheckPassed",
+                                      "Result": "T_HistoryCrawlerCheckPassed",
                                       "End": true
                                     }
                                   }
@@ -1267,23 +1267,23 @@
                   }
                 },
                 {
-                  "StartAt": "WaitForTaveAuroraCrawlerWorkerAvailability",
+                  "StartAt": "WaitForT_AuroraCrawlerWorkerAvailability",
                   "States": {
-                    "WaitForTaveAuroraCrawlerWorkerAvailability": {
+                    "WaitForT_AuroraCrawlerWorkerAvailability": {
                       "Type": "Wait",
                       "Seconds": 5,
-                      "Next": "InvokeTaveAuroraCrawlerWorker"
+                      "Next": "InvokeT_AuroraCrawlerWorker"
                     },
-                    "InvokeTaveAuroraCrawlerWorker": {
+                    "InvokeT_AuroraCrawlerWorker": {
                       "Type": "Task",
                       "Resource": "arn:aws:states:::lambda:invoke",
                       "InputPath": "$",
-                      "ResultPath": "$.response.tave_aurora_crawler_worker",
+                      "ResultPath": "$.response.t_aurora_crawler_worker",
                       "Parameters": {
                         "FunctionName": "TriggerCrawler",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.T_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.T_Aurora_Crawler"
                         }
                       },
                       "TimeoutSeconds": 300,
@@ -1302,26 +1302,26 @@
                           "ErrorEquals": [
                             "States.ALL"
                           ],
-                          "Next": "WaitForTaveAuroraCrawlerToComplete"
+                          "Next": "WaitForT_AuroraCrawlerToComplete"
                         }
                       ],
-                      "Next": "WaitForTaveAuroraCrawlerToComplete"
+                      "Next": "WaitForT_AuroraCrawlerToComplete"
                     },
-                    "WaitForTaveAuroraCrawlerToComplete": {
+                    "WaitForT_AuroraCrawlerToComplete": {
                       "Type": "Wait",
                       "Seconds": 60,
-                      "Next": "TaveAuroraCrawlerCheckStatus"
+                      "Next": "T_AuroraCrawlerCheckStatus"
                     },
-                    "TaveAuroraCrawlerCheckStatus": {
+                    "T_AuroraCrawlerCheckStatus": {
                       "Type": "Task",
                       "Resource": "arn:aws:states:::lambda:invoke",
                       "InputPath": "$",
-                      "ResultPath": "$.response.tave_aurora_crawler_check",
+                      "ResultPath": "$.response.t_aurora_crawler_check",
                       "Parameters": {
                         "FunctionName": "CheckCrawlerStatus",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.T_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.T_Aurora_Crawler"
                         }
                       },
                       "Retry": [
@@ -1339,28 +1339,28 @@
                           "ErrorEquals": [
                             "States.ALL"
                           ],
-                          "Next": "TaveAuroraCrawlerCheckFailed"
+                          "Next": "T_AuroraCrawlerCheckFailed"
                         }
                       ],
-                      "Next": "TaveAuroraCrawlerCheckPassed"
+                      "Next": "T_AuroraCrawlerCheckPassed"
                     },
-                    "TaveAuroraCrawlerCheckFailed": {
+                    "T_AuroraCrawlerCheckFailed": {
                       "Type": "Task",
                       "Resource": "arn:aws:states:::lambda:invoke",
                       "InputPath": "$",
-                      "ResultPath": "$.response.tave_aurora_crawler_check",
+                      "ResultPath": "$.response.t_aurora_crawler_check",
                       "Parameters": {
                         "FunctionName": "CrawlerCheckFail",
                         "Payload": {
-                          "crawler.$": "$.InputSchema.CrawlerJobs.Tave_Aurora_Crawler",
-                          "activity.$": "$.InputSchema.CrawlerActivities.Tave_Aurora_Crawler"
+                          "crawler.$": "$.InputSchema.CrawlerJobs.T_Aurora_Crawler",
+                          "activity.$": "$.InputSchema.CrawlerActivities.T_Aurora_Crawler"
                         }
                       },
                       "End": true
                     },
-                    "TaveAuroraCrawlerCheckPassed": {
+                    "T_AuroraCrawlerCheckPassed": {
                       "Type": "Pass",
-                      "Result": "TaveAuroraCrawlerCheckPassed",
+                      "Result": "T_AuroraCrawlerCheckPassed",
                       "End": true
                     }
                   }
@@ -1422,15 +1422,15 @@
           }
         },
         {
-          "StartAt": "RunTaveTransform",
+          "StartAt": "RunT_Transform",
           "States": {
-            "RunTaveTransform": {
+            "RunT_Transform": {
               "Type": "Task",
               "Resource": "arn:aws:states:::glue:startJobRun.sync",
               "InputPath": "$",
-              "ResultPath": "$.response.parallel_transforms.tave",
+              "ResultPath": "$.response.parallel_transforms.t",
               "Parameters": {
-                "JobName.$": "$.TransformJobs.tave"
+                "JobName.$": "$.TransformJobs.t"
               },
               "End": true,
               "Retry": [
@@ -1447,15 +1447,15 @@
           }
         },
         {
-          "StartAt": "RunColesTransform",
+          "StartAt": "RunCoTransform",
           "States": {
-            "RunColesTransform": {
+            "RunCoTransform": {
               "Type": "Task",
               "Resource": "arn:aws:states:::glue:startJobRun.sync",
               "InputPath": "$",
-              "ResultPath": "$.response.parallel_transforms.coles",
+              "ResultPath": "$.response.parallel_transforms.co",
               "Parameters": {
-                "JobName.$": "$.TransformJobs.coles"
+                "JobName.$": "$.TransformJobs.co"
               },
               "End": true,
               "Retry": [
