@@ -1,0 +1,460 @@
+{
+  "InputSchema": {
+    "ExtractJobs": [
+      {
+        "JobName": "album_photo_extract"
+      },
+      {
+        "JobName": "contract_body_extract"
+      },
+      {
+        "JobName": "ref_bill_item_type_extract"
+      },
+      {
+        "JobName": "ref_bill_status_extract"
+      },
+      {
+        "JobName": "ref_bill_type_extract"
+      },
+      {
+        "JobName": "ref_chargeback_currency_extract"
+      },
+      {
+        "JobName": "ref_chargeback_status_extract"
+      },
+      {
+        "JobName": "ref_chargeback_type_extract"
+      },
+      {
+        "JobName": "ref_cover_photo_status_extract"
+      },
+      {
+        "JobName": "ref_cover_photo_type_extract"
+      },
+      {
+        "JobName": "ref_deal_status_extract"
+      },
+      {
+        "JobName": "ref_digital_rule_status_extract"
+      },
+      {
+        "JobName": "ref_event_status_extract"
+      },
+      {
+        "JobName": "ref_gateway_transaction_gateway_type_extract"
+      },
+      {
+        "JobName": "ref_lab_bank_account_type_extract"
+      },
+      {
+        "JobName": "ref_lab_bank_account_use_extract"
+      },
+      {
+        "JobName": "ref_lab_catalog_group_status_extract"
+      },
+      {
+        "JobName": "ref_lab_catalog_option_type_extract"
+      },
+      {
+        "JobName": "ref_lab_catalog_product_addon_option_type_extract"
+      },
+      {
+        "JobName": "ref_lab_payment_status_extract"
+      },
+      {
+        "JobName": "ref_lab_shipping_type_extract"
+      },
+      {
+        "JobName": "ref_order_address_type_extract"
+      },
+      {
+        "JobName": "ref_order_digital_status_extract"
+      },
+      {
+        "JobName": "ref_order_fraud_status_extract"
+      },
+      {
+        "JobName": "ref_order_item_status_extract"
+      },
+      {
+        "JobName": "ref_order_lab_status_extract"
+      },
+      {
+        "JobName": "ref_order_payment_transaction_result_extract"
+      },
+      {
+        "JobName": "ref_order_payment_type_extract"
+      },
+      {
+        "JobName": "ref_order_photo_status_extract"
+      },
+      {
+        "JobName": "ref_order_status_extract"
+      },
+      {
+        "JobName": "ref_plan_attribute_extract"
+      },
+      {
+        "JobName": "ref_plan_status_extract"
+      },
+      {
+        "JobName": "ref_plan_type_extract"
+      },
+      {
+        "JobName": "ref_studio_address_type_extract"
+      },
+      {
+        "JobName": "ref_studio_profit_registry_other_reason_type_extract"
+      },
+      {
+        "JobName": "ref_studio_status_extract"
+      },
+      {
+        "JobName": "ref_zip_bundle_item_photo_status_extract"
+      },
+      {
+        "JobName": "ref_zip_bundle_status_extract"
+      },
+      {
+        "JobName": "ref_zip_bundle_type_extract"
+      },
+      {
+        "JobName": "ref_zip_bundle_zip_file_status_extract"
+      },
+      {
+        "JobName": "account_closure_request_extract"
+      },
+      {
+        "JobName": "address_extract"
+      },
+      {
+        "JobName": "affiliate_extract"
+      },
+      {
+        "JobName": "affiliate_studio_extract"
+      },
+      {
+        "JobName": "album_digital_rule_extract"
+      },
+      {
+        "JobName": "album_digital_rule_history_extract"
+      },
+      {
+        "JobName": "album_extract"
+      },
+      {
+        "JobName": "bill_extract"
+      },
+      {
+        "JobName": "bill_item_extract"
+      },
+      {
+        "JobName": "brand_address_extract"
+      },
+      {
+        "JobName": "brand_event_defaults_digital_rule_extract"
+      },
+      {
+        "JobName": "brand_event_defaults_digital_rule_history_extract"
+      },
+      {
+        "JobName": "brand_extract"
+      },
+      {
+        "JobName": "chargeback_extract"
+      },
+      {
+        "JobName": "chargeback_note_extract"
+      },
+      {
+        "JobName": "chargeback_tag_extract"
+      },
+      {
+        "JobName": "client_extract"
+      },
+      {
+        "JobName": "contract_extract"
+      },
+      {
+        "JobName": "contract_template_extract"
+      },
+      {
+        "JobName": "cover_photo_extract"
+      },
+      {
+        "JobName": "currency_conversion_extract"
+      },
+      {
+        "JobName": "deal_extract"
+      },
+      {
+        "JobName": "digital_rule_extract"
+      },
+      {
+        "JobName": "digital_rule_history_extract"
+      },
+      {
+        "JobName": "event_contact_digital_rule_extract"
+      },
+      {
+        "JobName": "event_contact_digital_rule_history_extract"
+      },
+      {
+        "JobName": "event_contact_extract"
+      },
+      {
+        "JobName": "event_digital_rule_extract"
+      },
+      {
+        "JobName": "event_digital_rule_history_extract"
+      },
+      {
+        "JobName": "event_extract"
+      },
+      {
+        "JobName": "event_visitor_extract"
+      },
+      {
+        "JobName": "finance_currency_rates_extract"
+      },
+      {
+        "JobName": "gateway_transaction_extract"
+      },
+      {
+        "JobName": "invoice_extract"
+      },
+      {
+        "JobName": "invoice_item_extract"
+      },
+      {
+        "JobName": "invoice_payment_extract"
+      },
+      {
+        "JobName": "lab_catalog_extract"
+      },
+      {
+        "JobName": "lab_catalog_group_extract"
+      },
+      {
+        "JobName": "lab_catalog_group_product_extract"
+      },
+      {
+        "JobName": "lab_catalog_product_extract"
+      },
+      {
+        "JobName": "lab_extract"
+      },
+      {
+        "JobName": "log_event_download_extract"
+      },
+      {
+        "JobName": "log_tx_data_pipeline_extract"
+      },
+      {
+        "JobName": "log_user_login_extract"
+      },
+      {
+        "JobName": "log_zip_bundle_downloaded_extract"
+      },
+      {
+        "JobName": "market_order_item_extract"
+      },
+      {
+        "JobName": "order_address_extract"
+      },
+      {
+        "JobName": "order_extract"
+      },
+      {
+        "JobName": "order_item_extract"
+      },
+      {
+        "JobName": "order_item_option_extract"
+      },
+      {
+        "JobName": "order_lab_shipment_extract"
+      },
+      {
+        "JobName": "photo_extract"
+      },
+      {
+        "JobName": "plan_attribute_extract"
+      },
+      {
+        "JobName": "plan_country_extract"
+      },
+      {
+        "JobName": "plan_extract"
+      },
+      {
+        "JobName": "platform_account_extract"
+      },
+      {
+        "JobName": "price_sheet_extract"
+      },
+      {
+        "JobName": "price_sheet_item_extract"
+      },
+      {
+        "JobName": "studio_engagement_extract"
+      },
+      {
+        "JobName": "studio_extract"
+      },
+      {
+        "JobName": "studio_address_extract"
+      },
+      {
+        "JobName": "studio_history_extract"
+      },
+      {
+        "JobName": "studio_money_balance_registry_extract"
+      },
+      {
+        "JobName": "studio_music_plan_extract"
+      },
+      {
+        "JobName": "studio_music_plan_history_extract"
+      },
+      {
+        "JobName": "studio_photo_usage_extract"
+      },
+      {
+        "JobName": "studio_plan_extract"
+      },
+      {
+        "JobName": "studio_plan_history_extract"
+      },
+      {
+        "JobName": "studio_profit_registry_extract"
+      },
+      {
+        "JobName": "studio_setting_extract"
+      },
+      {
+        "JobName": "studio_setting_history_extract"
+      },
+      {
+        "JobName": "studio_status_history_extract"
+      },
+      {
+        "JobName": "studio_tag_extract"
+      },
+      {
+        "JobName": "studio_user_extract"
+      },
+      {
+        "JobName": "survey_response_extract"
+      },
+      {
+        "JobName": "tag_extract"
+      },
+      {
+        "JobName": "user_extract"
+      },
+      {
+        "JobName": "zip_bundle_extract"
+      },
+      {
+        "JobName": "zip_bundle_item_photo_extract"
+      }
+    ],
+    "Pay_ExtractJobs": [
+      {
+        "JobName": "sp_pay_account_setting_extract"
+      }
+    ],
+    "ExtractJobs": [
+      {
+        "JobName": "address_extract"
+      },
+      {
+        "JobName": "appinstallable_extract"
+      },
+      {
+        "JobName": "appinstallablelog_extract"
+      },
+      {
+        "JobName": "appsurveyresponse_extract"
+      },
+      {
+        "JobName": "brand_extract"
+      },
+      {
+        "JobName": "clientpaymentmethod_extract"
+      },
+      {
+        "JobName": "contact_extract"
+      },
+      {
+        "JobName": "employee_extract"
+      },
+      {
+        "JobName": "invoice_extract"
+      },
+      {
+        "JobName": "invoiceitem_extract"
+      },
+      {
+        "JobName": "job_extract"
+      },
+      {
+        "JobName": "license_extract"
+      },
+      {
+        "JobName": "licensepayment_extract"
+      },
+      {
+        "JobName": "licenseplan_extract"
+      },
+      {
+        "JobName": "licensesubscription_extract"
+      },
+      {
+        "JobName": "payment_extract"
+      },
+      {
+        "JobName": "proposal_extract"
+      },
+      {
+        "JobName": "registration_extract"
+      },
+      {
+        "JobName": "stats_extract"
+      },
+      {
+        "JobName": "studio_extract"
+      }
+    ],
+    "TransformJobs": {
+      "util": "util_create_all_transform",
+      "sp": "create_all_transform",
+      "tave": "create_all_transform",
+      "coles": "cc_create_all_transform",
+      "multi": "multi_brand_create_all_transform"
+    },
+    "ExportJobs": {
+      "batch": "s3_batch_exports"
+    },
+    "CrawlerJobs": {
+      "Aurora_Crawler": "Aurora Crawler",
+      "History_Crawler": "History Crawler",
+      "Extract_Crawler": "Extract Crawler",
+      "Aurora_Crawler": "Aurora Crawler",
+      "History_Crawler": "History Crawler",
+      "Extract_Crawler": "Extract Crawler",
+      "Pay_Aurora_Crawler": "SP Pay Aurora Crawler",
+      "Pay_Extract_Crawler": "SP Pay Extract Crawler"
+    },
+    "CrawlerActivities": {
+      "Aurora_Crawler": "arn:aws:states:us-east-2:292057991635:activity:AuroraCrawler",
+      "History_Crawler": "arn:aws:states:us-east-2:292057991635:activity:HistoryCrawler",
+      "Extract_Crawler": "arn:aws:states:us-east-2:292057991635:activity:ExtractCrawler",
+      "Aurora_Crawler": "arn:aws:states:us-east-2:292057991635:activity:AuroraCrawler",
+      "History_Crawler": "arn:aws:states:us-east-2:292057991635:activity:HistoryCrawler",
+      "Extract_Crawler": "arn:aws:states:us-east-2:292057991635:activity:ExtractCrawler",
+      "Pay_Aurora_Crawler": "arn:aws:states:us-east-2:292057991635:activity:Pay_AuroraCrawler",
+      "Pay_Extract_Crawler": "arn:aws:states:us-east-2:292057991635:activity:Pay_ExtractCrawler"
+    }
+  }
+}
