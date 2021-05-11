@@ -1,7 +1,6 @@
+# ETL Workflow Design in AWS Step Functions
+ 
 [stepfunctions_graph.pdf](https://github.com/kc-bonilla/aws_stepfunction_complex_etl_workflow/files/6456091/stepfunctions_graph.pdf)
-# aws_stepfunction_complex_etl_workflow
-[stepfunctions_graph.pdf](https://github.com/kc-bonilla/aws_stepfunction_complex_etl_workflow/files/6456084/stepfunctions_graph.pdf)
-
 
 # **WIKI**
 
