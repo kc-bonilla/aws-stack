@@ -1,0 +1,460 @@
+{
+  "InputSchema": {
+    "SP_ExtractJobs": [
+      {
+        "JobName": "shootproof_album_photo_extract"
+      },
+      {
+        "JobName": "shootproof_contract_body_extract"
+      },
+      {
+        "JobName": "shootproof_ref_bill_item_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_bill_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_bill_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_chargeback_currency_extract"
+      },
+      {
+        "JobName": "shootproof_ref_chargeback_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_chargeback_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_cover_photo_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_cover_photo_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_deal_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_digital_rule_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_event_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_gateway_transaction_gateway_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_bank_account_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_bank_account_use_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_catalog_group_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_catalog_option_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_catalog_product_addon_option_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_payment_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_lab_shipping_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_address_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_digital_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_fraud_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_item_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_lab_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_payment_transaction_result_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_payment_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_photo_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_order_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_plan_attribute_extract"
+      },
+      {
+        "JobName": "shootproof_ref_plan_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_plan_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_studio_address_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_studio_profit_registry_other_reason_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_studio_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_zip_bundle_item_photo_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_zip_bundle_status_extract"
+      },
+      {
+        "JobName": "shootproof_ref_zip_bundle_type_extract"
+      },
+      {
+        "JobName": "shootproof_ref_zip_bundle_zip_file_status_extract"
+      },
+      {
+        "JobName": "shootproof_account_closure_request_extract"
+      },
+      {
+        "JobName": "shootproof_address_extract"
+      },
+      {
+        "JobName": "shootproof_affiliate_extract"
+      },
+      {
+        "JobName": "shootproof_affiliate_studio_extract"
+      },
+      {
+        "JobName": "shootproof_album_digital_rule_extract"
+      },
+      {
+        "JobName": "shootproof_album_digital_rule_history_extract"
+      },
+      {
+        "JobName": "shootproof_album_extract"
+      },
+      {
+        "JobName": "shootproof_bill_extract"
+      },
+      {
+        "JobName": "shootproof_bill_item_extract"
+      },
+      {
+        "JobName": "shootproof_brand_address_extract"
+      },
+      {
+        "JobName": "shootproof_brand_event_defaults_digital_rule_extract"
+      },
+      {
+        "JobName": "shootproof_brand_event_defaults_digital_rule_history_extract"
+      },
+      {
+        "JobName": "shootproof_brand_extract"
+      },
+      {
+        "JobName": "shootproof_chargeback_extract"
+      },
+      {
+        "JobName": "shootproof_chargeback_note_extract"
+      },
+      {
+        "JobName": "shootproof_chargeback_tag_extract"
+      },
+      {
+        "JobName": "shootproof_client_extract"
+      },
+      {
+        "JobName": "shootproof_contract_extract"
+      },
+      {
+        "JobName": "shootproof_contract_template_extract"
+      },
+      {
+        "JobName": "shootproof_cover_photo_extract"
+      },
+      {
+        "JobName": "shootproof_currency_conversion_extract"
+      },
+      {
+        "JobName": "shootproof_deal_extract"
+      },
+      {
+        "JobName": "shootproof_digital_rule_extract"
+      },
+      {
+        "JobName": "shootproof_digital_rule_history_extract"
+      },
+      {
+        "JobName": "shootproof_event_contact_digital_rule_extract"
+      },
+      {
+        "JobName": "shootproof_event_contact_digital_rule_history_extract"
+      },
+      {
+        "JobName": "shootproof_event_contact_extract"
+      },
+      {
+        "JobName": "shootproof_event_digital_rule_extract"
+      },
+      {
+        "JobName": "shootproof_event_digital_rule_history_extract"
+      },
+      {
+        "JobName": "shootproof_event_extract"
+      },
+      {
+        "JobName": "shootproof_event_visitor_extract"
+      },
+      {
+        "JobName": "shootproof_finance_currency_rates_extract"
+      },
+      {
+        "JobName": "shootproof_gateway_transaction_extract"
+      },
+      {
+        "JobName": "shootproof_invoice_extract"
+      },
+      {
+        "JobName": "shootproof_invoice_item_extract"
+      },
+      {
+        "JobName": "shootproof_invoice_payment_extract"
+      },
+      {
+        "JobName": "shootproof_lab_catalog_extract"
+      },
+      {
+        "JobName": "shootproof_lab_catalog_group_extract"
+      },
+      {
+        "JobName": "shootproof_lab_catalog_group_product_extract"
+      },
+      {
+        "JobName": "shootproof_lab_catalog_product_extract"
+      },
+      {
+        "JobName": "shootproof_lab_extract"
+      },
+      {
+        "JobName": "shootproof_log_event_download_extract"
+      },
+      {
+        "JobName": "shootproof_log_tx_data_pipeline_extract"
+      },
+      {
+        "JobName": "shootproof_log_user_login_extract"
+      },
+      {
+        "JobName": "shootproof_log_zip_bundle_downloaded_extract"
+      },
+      {
+        "JobName": "shootproof_market_order_item_extract"
+      },
+      {
+        "JobName": "shootproof_order_address_extract"
+      },
+      {
+        "JobName": "shootproof_order_extract"
+      },
+      {
+        "JobName": "shootproof_order_item_extract"
+      },
+      {
+        "JobName": "shootproof_order_item_option_extract"
+      },
+      {
+        "JobName": "shootproof_order_lab_shipment_extract"
+      },
+      {
+        "JobName": "shootproof_photo_extract"
+      },
+      {
+        "JobName": "shootproof_plan_attribute_extract"
+      },
+      {
+        "JobName": "shootproof_plan_country_extract"
+      },
+      {
+        "JobName": "shootproof_plan_extract"
+      },
+      {
+        "JobName": "shootproof_platform_account_extract"
+      },
+      {
+        "JobName": "shootproof_price_sheet_extract"
+      },
+      {
+        "JobName": "shootproof_price_sheet_item_extract"
+      },
+      {
+        "JobName": "shootproof_studio_engagement_extract"
+      },
+      {
+        "JobName": "shootproof_studio_extract"
+      },
+      {
+        "JobName": "shootproof_studio_address_extract"
+      },
+      {
+        "JobName": "shootproof_studio_history_extract"
+      },
+      {
+        "JobName": "shootproof_studio_money_balance_registry_extract"
+      },
+      {
+        "JobName": "shootproof_studio_music_plan_extract"
+      },
+      {
+        "JobName": "shootproof_studio_music_plan_history_extract"
+      },
+      {
+        "JobName": "shootproof_studio_photo_usage_extract"
+      },
+      {
+        "JobName": "shootproof_studio_plan_extract"
+      },
+      {
+        "JobName": "shootproof_studio_plan_history_extract"
+      },
+      {
+        "JobName": "shootproof_studio_profit_registry_extract"
+      },
+      {
+        "JobName": "shootproof_studio_setting_extract"
+      },
+      {
+        "JobName": "shootproof_studio_setting_history_extract"
+      },
+      {
+        "JobName": "shootproof_studio_status_history_extract"
+      },
+      {
+        "JobName": "shootproof_studio_tag_extract"
+      },
+      {
+        "JobName": "shootproof_studio_user_extract"
+      },
+      {
+        "JobName": "shootproof_survey_response_extract"
+      },
+      {
+        "JobName": "shootproof_tag_extract"
+      },
+      {
+        "JobName": "shootproof_user_extract"
+      },
+      {
+        "JobName": "shootproof_zip_bundle_extract"
+      },
+      {
+        "JobName": "shootproof_zip_bundle_item_photo_extract"
+      }
+    ],
+    "SP_Pay_ExtractJobs": [
+      {
+        "JobName": "sp_pay_account_setting_extract"
+      }
+    ],
+    "Tave_ExtractJobs": [
+      {
+        "JobName": "tave_address_extract"
+      },
+      {
+        "JobName": "tave_appinstallable_extract"
+      },
+      {
+        "JobName": "tave_appinstallablelog_extract"
+      },
+      {
+        "JobName": "tave_appsurveyresponse_extract"
+      },
+      {
+        "JobName": "tave_brand_extract"
+      },
+      {
+        "JobName": "tave_clientpaymentmethod_extract"
+      },
+      {
+        "JobName": "tave_contact_extract"
+      },
+      {
+        "JobName": "tave_employee_extract"
+      },
+      {
+        "JobName": "tave_invoice_extract"
+      },
+      {
+        "JobName": "tave_invoiceitem_extract"
+      },
+      {
+        "JobName": "tave_job_extract"
+      },
+      {
+        "JobName": "tave_license_extract"
+      },
+      {
+        "JobName": "tave_licensepayment_extract"
+      },
+      {
+        "JobName": "tave_licenseplan_extract"
+      },
+      {
+        "JobName": "tave_licensesubscription_extract"
+      },
+      {
+        "JobName": "tave_payment_extract"
+      },
+      {
+        "JobName": "tave_proposal_extract"
+      },
+      {
+        "JobName": "tave_registration_extract"
+      },
+      {
+        "JobName": "tave_stats_extract"
+      },
+      {
+        "JobName": "tave_studio_extract"
+      }
+    ],
+    "TransformJobs": {
+      "util": "util_create_all_transform",
+      "sp": "shootproof_create_all_transform",
+      "tave": "tave_create_all_transform",
+      "coles": "cc_create_all_transform",
+      "multi": "multi_brand_create_all_transform"
+    },
+    "ExportJobs": {
+      "batch": "s3_batch_exports"
+    },
+    "CrawlerJobs": {
+      "SP_Aurora_Crawler": "ShootProof Aurora Crawler",
+      "SP_History_Crawler": "ShootProof History Crawler",
+      "SP_Extract_Crawler": "ShootProof Extract Crawler",
+      "Tave_Aurora_Crawler": "Tave Aurora Crawler",
+      "Tave_History_Crawler": "Tave History Crawler",
+      "Tave_Extract_Crawler": "Tave Extract Crawler",
+      "SP_Pay_Aurora_Crawler": "SP Pay Aurora Crawler",
+      "SP_Pay_Extract_Crawler": "SP Pay Extract Crawler"
+    },
+    "CrawlerActivities": {
+      "SP_Aurora_Crawler": "arn:aws:states:us-east-2:292057991635:activity:SP_AuroraCrawler",
+      "SP_History_Crawler": "arn:aws:states:us-east-2:292057991635:activity:SP_HistoryCrawler",
+      "SP_Extract_Crawler": "arn:aws:states:us-east-2:292057991635:activity:SP_ExtractCrawler",
+      "Tave_Aurora_Crawler": "arn:aws:states:us-east-2:292057991635:activity:Tave_AuroraCrawler",
+      "Tave_History_Crawler": "arn:aws:states:us-east-2:292057991635:activity:Tave_HistoryCrawler",
+      "Tave_Extract_Crawler": "arn:aws:states:us-east-2:292057991635:activity:Tave_ExtractCrawler",
+      "SP_Pay_Aurora_Crawler": "arn:aws:states:us-east-2:292057991635:activity:SP_Pay_AuroraCrawler",
+      "SP_Pay_Extract_Crawler": "arn:aws:states:us-east-2:292057991635:activity:SP_Pay_ExtractCrawler"
+    }
+  }
+}
