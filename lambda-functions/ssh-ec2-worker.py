@@ -4,12 +4,12 @@ import paramiko
 from time import sleep
 
 
-HOST = "3.16.70.231"
-USER = "kcbonilla"
-INSTANCE_ID = "i-0efe038e2ebc73df1"
-S3_BUCKET = "datapipeline-analytics-shootproof-com"
-BUCKET_KEY = "step-functions/scripts/pendo_ec2_key.pem"
-PKEY_FILE = "/tmp/pendo_ec2_key.pem"
+HOST = "X.XX.XXXXXX"
+USER = "XXXXXXXX"
+INSTANCE_ID = "XXXXXXXXXX"
+S3_BUCKET = "BUCKET_NAME"
+BUCKET_KEY = "BUCKET/key.pem"
+PKEY_FILE = "/tmp/key.pem"
 COMMANDS = [
     "echo 'ssh to ec2 instance successful'",
     "ls -a"
