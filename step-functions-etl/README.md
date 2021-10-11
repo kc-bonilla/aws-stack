@@ -89,10 +89,10 @@ To set the State Machine to run daily at 1:15 AM EST, the input for &#39;Cron ex
 
 If you created a new S3 folder **extracts\_wf\_inputs** within the existing **datapipeline-analytics-shootproof-com/step-functions** folder structure and wanted to store the State Machine input file under the new filename **inputs.json** , you would make the following changes:
 
-**{&quot;Data&quot;: &quot;arn:aws:s3:::datapipeline-analytics-shootproof-com/step-functions/** ~~**scripts/SF\_Input\_Items.json**~~ **&quot;}**
+**{&quot;Data&quot;: &quot;arn:aws:s3:::datapipeline-analytics-**********-com/step-functions/** ~~**scripts/SF\_Input\_Items.json**~~ **&quot;}**
 
 
 
-**{&quot;Data&quot;: &quot;arn:aws:s3:::datapipeline-analytics-shootproof-com/step\_functions/**** extracts\_wf\_inputs/inputs.json ****&quot;}**
+**{&quot;Data&quot;: &quot;arn:aws:s3:::datapipeline-analytics-**********-com/step\_functions/**** extracts\_wf\_inputs/inputs.json ****&quot;}**
 
 1. Update the DAE Wiki to reflect the new S3 location and filename of the input file **.**
